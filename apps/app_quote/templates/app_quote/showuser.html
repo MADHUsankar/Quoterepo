@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+    <head>
+       <title>Quotes</title>
+                 {% load staticfiles %}
+            <link rel="stylesheet" href="{% static 'app_quote/style/style.css' %}">
+        
+   
+    </head>
+    <body>
+         <div id ="error" >
+                {% if messages %}
+            <ul class="messages">
+                {% for message in messages %}
+             
+                <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+         </div>
+         <a href = {% url 'quotes:homepage'%}>Dashboard</a>
+        <a href = {% url 'users:logout'%}>Logout</a>
+     
+      <p>Posts by {{userdata.name}}</p>
+      <p>Count : {{quotecount}}</p>
+
+      {% for quote in quotes %}
+        <p><span id="redtext"><b>{{quote.quotedby}} :<b></span> {{quote.quotetext}}</p>
+
+        {% endfor %}

@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+    <head>
+       <title>Quotes</title>
+                 {% load staticfiles %}
+            <link rel="stylesheet" href="{% static 'app_quote/style/style.css' %}">
+        
+   
+    </head>
+    <body>
+         <div id ="error" >
+                {% if messages %}
+            <ul class="messages">
+                {% for message in messages %}
+             
+                <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+         </div>
+        <p>
+     <p> <h1>Welcome {{name}}!</h1>
+      <a href = {% url 'users:logout'%}>Logout</a></p>
+
+      
+
+        <div id ="scrollotherfav">
+            <h4> Quotable Quotes</h4>
+                {% for quote in Otheruserfavs %}
+                    <div id "innerotherfav">
+                        {{quote.quotedby}} : {{quote.quotetext}}
+                        <p>
+                            <i>Posted by <a href = {% url 'quotes:showuser' quote.quotecreator.id %} target="_blank">  {{quote.quotecreator.name}}</a></i></p>
+                            <form action="{% url 'quotes:addfavquote' quote.id%}" method ="post">
+                                {% csrf_token %}   
+                
+                                <p><input id="submits" type="submit" value="Add to My List"></p>
+                            </form>
+                            {% if quote.quotecreator.id == userid %}
+                                <a href = {% url 'quotes:delquote' quote.id %} target="_blank">Delete</a>
+                                <a href = {% url 'quotes:editquote' quote.id %} target="_blank">Edit</a>
+                            {% endif %}
+                            <hr>
+
+                    </div>
+                
+                {% endfor %}
+        </div>
+
+        <div id ="scrolluserfav">
+        <h4>Your Favourites</h4>
+        {% for uquote in Userfavs %}
+            <div id "inneruserfav">
+            {{uquote.quotedby}} : {{uquote.quotetext}}
+             <p>
+                 <i>Posted by <a href = {% url 'quotes:showuser' uquote.quotecreator.id %} target="_blank"> {{uquote.quotecreator.name}}</a></i></p>
+                <form action="{% url 'quotes:removefavquote' uquote.id%}" method ="post">
+                    {% csrf_token %}   
+    
+                    <p><input id="submits" type="submit" value="Remove From My List"></p>
+                </form>
+            </div>
+        <hr>
+        {% endfor %}
+
+        </div>
+    
+                
+
+
+
+        <div id = "quoteform">
+            <h1> Contribute a Quote</h1>
+            <form action="{% url 'quotes:addquote'%}" method ="post">
+                {% csrf_token %}
+                <p>
+                <label for="Quoted By:"><b>Quoted by</b></label>
+                <input type="text" id ="quotedby" name="quotedby">
+                </p>
+                <p>
+                <label for="message"><b>Message:</b></label>
+                <textarea name = "message" rows = "5" cols = "60"></textarea>
+                </p>
+                </p>
+                    <p><input id="submits" type="submit" value="Add"></p>
+                </form>
+        </div>
+
+ 

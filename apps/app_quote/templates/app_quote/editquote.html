@@ -1,0 +1,42 @@
+    <!DOCTYPE html>
+<html>
+    <head>
+       <title>Quotes</title>
+                 {% load staticfiles %}
+            <link rel="stylesheet" href="{% static 'app_quote/style/style.css' %}">
+       
+        
+   
+    </head>
+    <body>
+         <div id ="error" >
+                {% if messages %}
+            <ul class="messages">
+                {% for message in messages %}
+             
+                <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+         </div>
+        <p>
+     <p> <h1>Edit Quote</h1>
+      <a href = {% url 'users:logout'%}>Logout</a></p>
+       <a href = {% url 'quotes:homepage'%}>Dashboard</a>
+
+        <div id = "quoteform1">
+            <h1> Edit a Quote</h1>
+            <form action="{% url 'quotes:editquote' quote.id%}" method ="post">
+                {% csrf_token %}
+                <p>
+                <label for="Quoted By:"><b>Quoted by</b></label>
+                <input type="text" id ="quotedby" name="quotedby" value={{quote.quotedby}}>
+                </p>
+                <p>
+                <label for="message"><b>Message:</b></label>
+                <textarea name = "message" rows = "5" cols = "60" >{{quote.quotetext}}</textarea>
+                </p>
+                </p>
+                    <p><input id="submits" type="submit" value="Update"></p>
+                </form>
+        </div>
